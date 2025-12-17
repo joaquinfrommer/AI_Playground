@@ -1,0 +1,30 @@
+Basic Misconfigurations
+
+Telnet:
+You may be able to log into telnet with no password if you provide a valid username, try root to start.
+
+FTP:
+You may be able to use the username anonymous with no password to log into an ftp server without knowing an account
+
+SMB:
+The null session, if not disabled, allows for anonymous/guest access to a network resource when using no credentials.
+
+On UNIX, tools like smbclient (C) and smbmap (Python) can be used to access SMB shares with null sessions. Null credentials do not have to be explicitly set in this case.
+
+# List shares
+smbclient --list //$IP
+smbmap -H $IP
+
+# List shares (implicit null creds)
+smbclient --no-pass --list //$IP
+
+# List shares (explicit null creds)
+smbclient --user ''%'' --list //$IP
+smbmap -u '' -p '' -H $IP
+
+# Open an interactive session to operate on a specific share
+smbclient //$IP/$SHARE_NAME
+
+On Windows, the net cmdlet can be used to natively interact with SMB shares and explicitly set null credentials.
+# Use null credentials for SMB share on windows
+net use \\$IP\$SHARE_NAME '' /user:''

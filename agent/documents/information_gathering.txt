@@ -1,0 +1,24 @@
+Information Gathering
+
+When targeting machines connected to a network, identifying which services are running and accessible remotely allows attackers to have a better understanding of the attack surface.
+
+Nmap:
+The most commonly used tool for port scanning is nmap ("Network Mapper"). This tool features a lot of options but the main ones are the following.
+
+# basic TCP SYN scanning of the 1000 most common TCP ports, with a normal speed
+nmap $TARGET
+
+# basic TCP SYN scanning of the 100 most common TCP ports, with a normal speed
+nmap -F $TARGET
+
+# scan all TCP ports with an aggressive speed, skipping host discovery, adding verbosity
+nmap -v -Pn -p "0-65535" -T4 $TARGET
+
+# scan specific TCP ports, enable service/version detection and script scanning, skipping host discovery, with an aggressive speed
+nmap -Pn -sC -sV -p "20-25,53,80,135,139,443,445" $TARGET
+
+# same, but scanning known vulnerabilites (CVEs) instead of default scripts
+nmap -Pn --script vuln -sV -p "20-25,53,80,135,139,443,445" $TARGET
+
+# scan 20 most common UDP ports and enable service detection
+nmap -sU -sV --top-ports 20 $TARGET
